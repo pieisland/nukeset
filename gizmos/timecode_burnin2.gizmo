@@ -1,0 +1,45 @@
+#! /home/namgwang/Nuke11.3v1/libnuke-11.3.1.so -nx
+version 11.3 v1
+Gizmo {
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 290
+  ypos -28
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[metadata input/timecode]"
+  old_message {{48 48 58 51 48 58 53 50 58 49 48}
+    }
+  old_expression_markers {{0 10}
+    }
+  box {0 0 {width} {height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 24
+  font {{ Liberation Mono : Regular : liberation/LiberationMono-Regular.ttf : 0 }}
+  global_font_scale {{width*0.0005}}
+  center {1024 484}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 484 0 0 1 1 0 0 0 0}
+    }
+  name Text1
+  xpos 290
+  ypos 12
+ }
+ Output {
+  name Output1
+  xpos 290
+  ypos 112
+ }
+end_group
