@@ -5,7 +5,7 @@ from PySide2.QtWidgets import *
 class CheckEnv(QWidget):
 	def __init__(self):
 		super(CheckEnv, self).__init__()
-		self.layout = QVBoxLayout()
+		self.layout = QVBoxLayout()#init 안에 있어야 남아있는 값이 없어서, 하나만 나옴
 		self.setLayout(self.layout)#QtWidgets의 method. layout setting.
 		self.setEnv()
 	
