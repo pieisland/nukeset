@@ -1,5 +1,7 @@
 #coding:utf8
 import nuke
+import os
+import pathapi
 from PySide2.QtWidgets import *
 
 class MakeWrite(QWidget):
@@ -47,13 +49,13 @@ class MakeWrite(QWidget):
 	#내 생각에는 이게, 크기를 바꾸는거구.
 
 	def genReformat(self):
-			reformat = nuke.nodes.Reformat()
-			reformat["type"].setValue("to box")
-			reformat["box_fixed"].setValue(True)
-			width, height = self.fm.currentText().split("x")
-			reformat["box_width"].setValue(int(width))
-			reformat["box_height"].setValue(int(height))
-			self.linkOrder.append(reformat)
+		reformat = nuke.nodes.Reformat()
+		reformat["type"].setValue("to box")
+		reformat["box_fixed"].setValue(True)
+		width, height = self.fm.currentText().split("x")
+		reformat["box_width"].setValue(int(width))
+		reformat["box_height"].setValue(int(height))
+		self.linkOrder.append(reformat)
 
 	def genAddTimecode(self):
 		addTimecode=nuke.nodes.AddTimeCode()
@@ -65,14 +67,38 @@ class MakeWrite(QWidget):
 	#이거는 슬레이트. 만들어서 넣은 거고.
 	def genSlate(self):
 		slate=nuke.nodes.slate()
+		slate["vendor"].setValue("gwang")
+		slate["user"].setValue(os.getenv("USER"))
+		slate["memo"].setValue(" ")
+		p=nuke.root().name()
+		seq, err=pathapi.seq(p)
+		if err:
+			nuke.tprint(err)
+		
+		shot, err = pathapi.shot(p)
+		if err:
+			nuke.tprint(err)
+		slate["shot"].setValue(seq+"_"+shot)
+		task, err=pathapi.task(p)
+		
+		if err:
+			nuke.tprint(err)
+		slate["task"].setValue(task)
+		ver, err = pathapi.version(p)
+		
+		if err:
+			nuke.tprint(err)
+		slate["version"].setValue(ver)
 		self.linkOrder.append(slate)
 
 	#write 노드를 만드는 거고
 	def genWrite(self):
 		write=nuke.nodes.Write()
+		dirname, basename=os.path.split(nuke.root().name())
+		filename, notuse=os.path.splitext(basename)
 		ext=str(self.ext.currentText())
 		write["file_type"].setValue(ext[1:])
-		write["file"].setValue("/test/test.####"+ext)
+		write["file"].setValue("%s/out/%s/%s.####%s"% (dirname, filename, filename, ext))
 		write["create_directories"].setValue(True)
 		self.linkOrder.append(write)
 
@@ -96,6 +122,14 @@ class MakeWrite(QWidget):
 		self.linkNodes()
 		self.close()
 
+def checkCondition():
+	if nuke.root().name()=="Root":
+		nuke.message("파일을 저장해주세요.")
+		return
+	if len(nuke.selectedNodes())!=1:
+		nuke.message("노드를 하나만 선택해주세요.")
+		return
+
 def main():
 	if len(nuke.selectedNodes())!= 1 :	
 		nuke.message("노드를 선택해주세요.")
@@ -110,4 +144,3 @@ def main():
 		customApp.show()
 	except:
 		pass
-		slate=nuke.nodes.slate()

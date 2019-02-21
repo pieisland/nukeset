@@ -5,6 +5,7 @@ import openNode
 import openfile
 import helloWidget
 import makewrite
+import makewrite3
 
 tb = nuke.toolbar("Nodes")
 m = tb.addMenu("namgwang", icon="nam_logo.png")
@@ -22,4 +23,4 @@ mb.addCommand("Checkenv", "checkenv.main()")
 mb.addCommand("OpenNode", "openNode.main()")
 mb.addCommand("OpenFile", "reload(openfile);openfile.main()", "F8", shortcutContext=2)
 mb.addCommand("HelloWorld", "helloWidget.main()")
-mb.addCommand("makeWriteNode", "reload(makewrite);makewrite.main()", "F10", shortcutContext=2)
+mb.addCommand("makeWriteNode", "reload(makewrite);makewrite3.main()", "F10", shortcutContext=2)
