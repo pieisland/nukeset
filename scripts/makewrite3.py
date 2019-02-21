@@ -45,14 +45,15 @@ class MakeWrite(QWidget):
 		self.linkOrder=[]
 
 	#내 생각에는 이게, 크기를 바꾸는거구.
+
 	def genReformat(self):
-		reformat=nuke.nodes.Reformat()
-		reformat["type"]=setValue("to box")
-		reformat["box_fixed"].setValue(True)
-		width, hegiht=self.fm.currentText().split("x")
-		reformat["box_width"].setValue(int(width))
-		reformat["box_hegiht"].setValue(int(hegiht))
-		self.linkOrder.append(reformat)
+			reformat = nuke.nodes.Reformat()
+			reformat["type"].setValue("to box")
+			reformat["box_fixed"].setValue(True)
+			width, height = self.fm.currentText().split("x")
+			reformat["box_width"].setValue(int(width))
+			reformat["box_height"].setValue(int(height))
+			self.linkOrder.append(reformat)
 
 	def genAddTimecode(self):
 		addTimecode=nuke.nodes.AddTimeCode()
@@ -68,7 +69,7 @@ class MakeWrite(QWidget):
 
 	#write 노드를 만드는 거고
 	def genWrite(self):
-		write=nuke.nodes.write()
+		write=nuke.nodes.Write()
 		ext=str(self.ext.currentText())
 		write["file_type"].setValue(ext[1:])
 		write["file"].setValue("/test/test.####"+ext)
@@ -79,7 +80,7 @@ class MakeWrite(QWidget):
 		#linkorder 노드 순서대로 노드를 연결, 생성
 		tail=nuke.selectedNode()
 		for n in self.linkOrder:
-			n=setInput(0, tail)
+			n.setInput(0, tail)
 			tail=n
 
 	def pushOK(self):
@@ -109,3 +110,4 @@ def main():
 		customApp.show()
 	except:
 		pass
+		slate=nuke.nodes.slate()
