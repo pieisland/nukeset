@@ -38,6 +38,7 @@ class GenWrite(QWidget):
 		#set layout
 		layout=QGridLayout()
 		layout.addWidget(self.reformat, 0, 0)
+		slate=nuke.nodes.slate()
 		layout.addWidget(self.fm, 0, 1)
 		layout.addWidget(QLabel("master Ext"), 1, 0)
 		layout.addWidget(self.ext, 1, 1)
